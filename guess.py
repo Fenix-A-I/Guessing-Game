@@ -1,3 +1,8 @@
+'''
+Author: Alexandr Iapara
+Description: Guessing game where user inputs a word and then guesses letters to find the word.
+'''
+
 def get_unique_letters(word):
     """Returns a string of unique letters in the word."""
     unique = ""
@@ -28,45 +33,49 @@ def play_game(word):
 
     unique_letters = get_unique_letters(word)
 
-    while not finished:
-        letter_guess = prompt_letter()
+    try:
+        while not finished:
+            letter_guess = prompt_letter()
 
-        # If the user enters a blank guess, exit the loop
-        if len(letter_guess) == 0:
-            break
+            # If the user enters a blank guess, exit the loop
+            if len(letter_guess) == 0:
+                break
 
-        # Check if the letter was already guessed
-        if letter_guess in guessed_letters:
-            if letter_guess in unique_letters:
-                print("\t>", letter_guess, "already guessed and found")
+            # Check if the letter was already guessed
+            if letter_guess in guessed_letters:
+                if letter_guess in unique_letters:
+                    print("\t>", letter_guess, "already guessed and found")
+                else:
+                    print("\t>", letter_guess, "already guessed and not found")
             else:
-                print("\t>", letter_guess, "already guessed and not found")
-        else:
-            # Check if the guess is correct
-            if letter_guess in unique_letters:
-                print("\t>", letter_guess, "found")
-                matched_guesses += letter_guess
-            else:
-                print("\t>", letter_guess, "not found")
-                unmatched_guesses += letter_guess
+                # Check if the guess is correct
+                if letter_guess in unique_letters:
+                    print("\t>", letter_guess, "found")
+                    matched_guesses += letter_guess
+                else:
+                    print("\t>", letter_guess, "not found")
+                    unmatched_guesses += letter_guess
 
-        # Increment the guess counter
-        number_guesses += 1
+            # Increment the guess counter
+            number_guesses += 1
 
-        # Add the guessed letter to the list of guessed letters if not already present
-        if letter_guess not in guessed_letters:
-            guessed_letters += letter_guess
+            # Add the guessed letter to the list of guessed letters if not already present
+            if letter_guess not in guessed_letters:
+                guessed_letters += letter_guess
 
-        # Display all guessed letters so far
-        print("\t> Guesses so far:", guessed_letters)
+            # Display all guessed letters so far
+            print("\t> Guesses so far:", guessed_letters)
 
-        # Check if all unique letters have been guessed
-        finished = all(l in guessed_letters for l in unique_letters)
+            # Check if all unique letters have been guessed
+            finished = all(l in guessed_letters for l in unique_letters)
+    except KeyboardInterrupt:
+        print("\n\t> Game interrupted by user.")
+    except Exception as e:
+        print(f"\n\t> An error occurred: {e}")
 
     # If the game is finished, display the results
     if finished:
-        print("\t> All letters found")
-        print()
+        print("\t> All letters found\n")
         print("======== Results ========")
         print(f"Word:\t\t{word}")
         print(f"Matched:\t{matched_guesses}")
